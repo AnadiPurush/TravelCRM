@@ -1,0 +1,6 @@
+- setup Spring Boot project structure
+- implement stateless JWT authentication
+- add role-based access control
+- configure token expiry validation
+- create initial super admin user
+- add basic API mappings"
