@@ -7,7 +7,7 @@ import Com.Crm.Travel.Entities.AppUser;
 public interface AppUserServices {
     boolean getSuperAdmin(String userEmail);
 
-    AppUser saveSuperAdmin(AppUser user);
+    void saveSuperAdmin(AppUser user);
 
     AppUser findUserByEmail(String userEmail);
 

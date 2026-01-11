@@ -23,8 +23,9 @@ public class AppUserServicesImpl implements AppUserServices {
 
     @Override
     @Transactional
-    public AppUser saveSuperAdmin(AppUser user) {
-        return userRepo.save(user);
+    public void saveSuperAdmin(AppUser user) {
+
+        userRepo.save(user);
     }
 
     @Override

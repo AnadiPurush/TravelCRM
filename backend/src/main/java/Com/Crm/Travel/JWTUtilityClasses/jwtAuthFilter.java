@@ -30,8 +30,8 @@ public class jwtAuthFilter extends OncePerRequestFilter {
     }
 
     @Override
-    protected void doFilterInternal(@SuppressWarnings("null") HttpServletRequest request,
-            @SuppressWarnings("null") HttpServletResponse response, @SuppressWarnings("null") FilterChain filterChain)
+    protected void doFilterInternal(HttpServletRequest request,
+            HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
 
         // System.out.println("AUTH HEADER = [" + request.getHeader("Authorization") +
@@ -49,12 +49,12 @@ public class jwtAuthFilter extends OncePerRequestFilter {
 
             String token = authHeader.substring(7);
             Authentication existingAuth = SecurityContextHolder.getContext().getAuthentication();
-            System.out.println("here in jwtAuthFilter");
+            // System.out.println("here in jwtAuthFilter");
 
             try {
                 String username = jwtUtil.extractUserName(token);
-                System.out.println(username);
-                System.out.println("here in jwtAuthFilter1");
+                // System.out.println(username);
+                // System.out.println("here in jwtAuthFilter1");
                 if (username != null &&
                         (existingAuth == null ||
                                 existingAuth instanceof AnonymousAuthenticationToken)) {
