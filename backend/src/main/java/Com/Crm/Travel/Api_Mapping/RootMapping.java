@@ -90,8 +90,9 @@ public class RootMapping {
                 && authentication.isAuthenticated()) {
             response.put("status", "authenticated");
             response.put("message", "User is authenticated.");
-            System.out.println("token is not expired");
-            authentication.getAuthorities().forEach(a -> System.out.print(a.getAuthority()));
+            // System.out.println("token is not expired");
+            // authentication.getAuthorities().forEach(a ->
+            // System.out.print(a.getAuthority()));
 
         } else {
             response.put("status", "unauthenticated");
