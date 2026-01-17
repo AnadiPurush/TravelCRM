@@ -1,20 +1,29 @@
 package Com.Crm.Travel.common.enums;
 
 public enum AppUserPermissions {
-    TRIP_READ,
-    TRIP_MANAGE,
-    TRAVELER_MANAGE,
-
-    // Finance
-    FINANCE_READ,
-    FINANCE_MANAGE,
-
-    // Queries
-    QUERY_READ,
+    // SALES
+    QUERY_CREATE,
     QUERY_ASSIGN,
-    QUERY_RESPOND,
+    QUERY_VIEW,
+    QUOTE_CREATE,
+    QUOTE_UPDATE,
+    DEAL_CONFIRM,
 
-    // User management
+    // OPERATIONS
+    TRIP_CREATE,
+    TRIP_ASSIGN,
+    TICKET_UPLOAD,
+    VISA_PROCESS,
+
+    // ACCOUNTS
+    EXPENSE_ADD,
+    EXPENSE_VIEW,
+    INVOICE_CREATE,
+    LEDGER_VIEW,
+
+    // ADMIN
+    USER_CREATE,
     USER_MANAGE,
-
+    PERMISSION_ASSIGN,
+    SYSTEM_CONFIG
 }
