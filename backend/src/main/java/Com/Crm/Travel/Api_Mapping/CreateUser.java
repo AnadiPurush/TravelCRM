@@ -1,47 +1,78 @@
 package Com.Crm.Travel.Api_Mapping;
 
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.security.core.Authentication;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import Com.Crm.Travel.common.enums.AppUserPermissions;
+import Com.Crm.Travel.Entities.AppUser;
+import Com.Crm.Travel.Entities.EntitesHelper.ChangePasswordRequest;
+import Com.Crm.Travel.Entities.EntitesHelper.UserCreateRequest;
+import Com.Crm.Travel.Services.appUserServices.AppUserServices;
 
 @RestController
 @RequestMapping("/api/adminCRUD")
 
 public class CreateUser {
-    @PostMapping("/createUser")
-    @PreAuthorize("hasRole('SUPERADMIN')")
+    private final AppUserServices services;
 
-    public ResponseEntity<?> createUser() {
-        return null;
+    public CreateUser(AppUserServices services) {
+        this.services = services;
+
     }
 
+    @PreAuthorize("hasRole('SUPERADMIN')or hasAuthority('USER_CREATE')")
+    @PostMapping("/admin/createUser")
+    public boolean createUserRequest(@RequestBody UserCreateRequest request) {
+        try {
+            services.saveUser(request);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    @PatchMapping("/updatePassword")
+    public ResponseEntity<?> updatePassword(@RequestBody ChangePasswordRequest req,
+            Authentication authentication) {
+        AppUser user = (AppUser) authentication.getPrincipal();
+        services.changePassword(user.getUsername(), req);
+        return ResponseEntity.ok("Passwors Updated  successfully");
+    }
+
+    @PatchMapping("/forgetPassword")
     @PreAuthorize("hasRole('SUPERADMIN')or hasAuthority('USER_MANAGE')")
-
-    @GetMapping("/permissions-grouped")
-    public Map<String, List<AppUserPermissions>> getGroupedPermissions() {
-        Map<String, List<AppUserPermissions>> grouped = new LinkedHashMap<>();
-
-        grouped.put("Trips", List.of(AppUserPermissions.TRIP_READ,
-                AppUserPermissions.TRIP_MANAGE,
-                AppUserPermissions.TRAVELER_MANAGE));
-
-        grouped.put("Finance", List.of(AppUserPermissions.FINANCE_READ,
-                AppUserPermissions.FINANCE_MANAGE));
-
-        grouped.put("Queries", List.of(AppUserPermissions.QUERY_READ,
-                AppUserPermissions.QUERY_ASSIGN,
-                AppUserPermissions.QUERY_RESPOND));
-
-        grouped.put("User_Manager", List.of(AppUserPermissions.USER_MANAGE));
-        return grouped;
+    public String forgetPassword(@RequestBody ChangePasswordRequest req, String email) {
+        return services.forgetPassword(email, req);
     }
+
+    // @PreAuthorize("hasRole('SUPERADMIN')or hasAuthority('USER_MANAGE')")
+
+    // @GetMapping("/permissions-grouped")
+    // public Map<String, List<AppUserPermissions>> getGroupedPermissions() {
+    // Map<String, List<AppUserPermissions>> grouped = new LinkedHashMap<>();
+
+    // grouped.put("Trips", List.of(AppUserPermissions.TRIP_READ,
+    // AppUserPermissions.TRIP_MANAGE,
+    // AppUserPermissions.TRAVELER_MANAGE));
+
+    // grouped.put("Finance", List.of(AppUserPermissions.FINANCE_READ,
+    // AppUserPermissions.FINANCE_MANAGE));
+
+    // grouped.put("Queries", List.of(AppUserPermissions.QUERY_READ,
+    // AppUserPermissions.QUERY_ASSIGN,
+    // AppUserPermissions.QUERY_RESPOND));
+
+    // grouped.put("User_Manager", List.of(AppUserPermissions.USER_MANAGE));
+
+    // // grouped.forEach((grp, per) -> {
+    // // System.out.print(grp);
+    // // per.forEach(p -> System.out.println(p));
+    // // });
+    // return grouped;
+    // }
 }
