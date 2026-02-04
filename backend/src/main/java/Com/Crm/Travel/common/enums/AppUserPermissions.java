@@ -7,7 +7,6 @@ public enum AppUserPermissions {
     QUERY_VIEW,
     QUOTE_CREATE,
     QUOTE_UPDATE,
-    DEAL_CONFIRM,
 
     // OPERATIONS
     TRIP_CREATE,

@@ -55,10 +55,10 @@ public class AppUser implements UserDetails {
     @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name = "app_user_permissions", joinColumns = @JoinColumn(name = "user_id"))
     @Enumerated(EnumType.STRING)
-    @Column(name = "permissions")
+    @Column(name = "permissions", length = 1000)
     private Set<AppUserPermissions> permissions = new HashSet<>();
 
-    @OneToMany(mappedBy = "assignedTo")
+    @OneToMany(mappedBy = "appUser")
     private List<Quaries> assignedQuaries;
 
     @Enumerated(EnumType.STRING)

@@ -3,7 +3,6 @@ package Com.Crm.Travel.Services.servicesImpl.appUserImpl;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,7 +18,7 @@ public class AppUserServicesImpl implements AppUserServices {
     private final AppUserRepo userRepo;
     private final PasswordEncoder encoder;
 
-    public AppUserServicesImpl(AppUserRepo userRepo, BCryptPasswordEncoder encoder) {
+    public AppUserServicesImpl(AppUserRepo userRepo, PasswordEncoder encoder) {
         this.userRepo = userRepo;
         this.encoder = encoder;
 
@@ -89,7 +88,7 @@ public class AppUserServicesImpl implements AppUserServices {
                 user.setPassword(encoder.encode(req.newPassword()));
 
             } else {
-                throw new InternalError("Something went wrong while saving the password");
+                throw new InternalError("Please enter the correct old password");
             }
         } catch (UsernameNotFoundException e) {
 
