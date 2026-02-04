@@ -21,25 +21,23 @@ import org.springframework.web.bind.annotation.RestController;
 
 import Com.Crm.Travel.Entities.AppUser;
 import Com.Crm.Travel.Entities.EntitesHelper.LoginRequest;
-import Com.Crm.Travel.Entities.Quaries;
 import Com.Crm.Travel.JWTUtilityClasses.JWTUtil;
 import Com.Crm.Travel.Security.LoadUserDetailsService;
-import Com.Crm.Travel.Services.quarieServices.QuariesServices;
 
 @RestController
 @RequestMapping("/api")
 public class RootMapping {
     private final AuthenticationManager authenticationManager;
     private static final Logger logger = LoggerFactory.getLogger(RootMapping.class);
-    private final QuariesServices quariesServices;
+
     private final JWTUtil jwtUtil;
 
     public RootMapping(AuthenticationManager authenticationManager, JWTUtil jwtUtil,
-            LoadUserDetailsService loadUserDetailsService, QuariesServices quariesServices) {
+            LoadUserDetailsService loadUserDetailsService) {
         super();
         this.authenticationManager = authenticationManager;
         this.jwtUtil = jwtUtil;
-        this.quariesServices = quariesServices;
+
     }
 
     @PostMapping("/login")
@@ -99,12 +97,6 @@ public class RootMapping {
             response.put("message", "User is not authenticated or session is invalid.");
         }
         return ResponseEntity.ok(response);
-    }
-
-    @PostMapping("general/Quaries")
-    public ResponseEntity<?> quariesSave(@RequestBody Quaries quaries) {
-        quariesServices.saveQuaries(quaries);
-        return null;
     }
 
     @PostMapping("/logout")
