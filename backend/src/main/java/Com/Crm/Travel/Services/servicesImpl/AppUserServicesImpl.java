@@ -5,12 +5,15 @@ import Com.Crm.Travel.Entities.EntitesHelper.ChangePasswordRequest;
 import Com.Crm.Travel.Entities.EntitesHelper.UserCreateRequest;
 import Com.Crm.Travel.Repo.AppUserRepo;
 import Com.Crm.Travel.Services.AppUserServices;
+import Com.Crm.Travel.common.enums.Department;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Service
 public class AppUserServicesImpl implements AppUserServices {
@@ -111,6 +114,11 @@ public class AppUserServicesImpl implements AppUserServices {
         } catch (NullPointerException e) {
             throw new InternalError("Something went wrong while saving the password");
         }
+    }
+
+    @Override
+    public List<AppUser> findByDepartment(Department department) {
+        return userRepo.findByDepartment(department);
     }
 
 }

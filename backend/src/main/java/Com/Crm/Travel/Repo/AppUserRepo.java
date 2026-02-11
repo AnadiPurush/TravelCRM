@@ -1,6 +1,7 @@
 package Com.Crm.Travel.Repo;
 
 import Com.Crm.Travel.Entities.AppUser;
+import Com.Crm.Travel.common.enums.Department;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -16,4 +17,6 @@ public interface AppUserRepo extends JpaRepository<AppUser, Long> {
 	Optional<AppUser> findByName(String name);
 
 	List<AppUser> findUserByEmail(String email);
+
+	List<AppUser> findByDepartment(Department department);
 }

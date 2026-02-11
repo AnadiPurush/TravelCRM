@@ -2,15 +2,14 @@ package Com.Crm.Travel.common.enums;
 
 import Com.Crm.Travel.common.enums.Response.DisplayEnum;
 
-public enum Department implements DisplayEnum {
-
-    SALES("Sales"),
-    OPERATIONS("Operations"),
-    ACCOUNTS("Accounts");
+public enum QueriesPriority implements DisplayEnum {
+    LOW("Priority Low"),
+    MEDIUM("Priority Medium"),
+    HIGH("Priority High");
 
     private final String displayName;
 
-    Department(String displayName) {
+    QueriesPriority(String displayName) {
         this.displayName = displayName;
     }
 

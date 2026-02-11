@@ -1,19 +1,14 @@
 package Com.Crm.Travel.Entities;
 
+import Com.Crm.Travel.common.enums.QueriesPriority;
+import Com.Crm.Travel.common.enums.QueriesStatus;
+import jakarta.persistence.*;
+import lombok.*;
+
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
-import Com.Crm.Travel.common.enums.QuariesPriority;
-import Com.Crm.Travel.common.enums.QuariesStatus;
-import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
 
 @Entity
 @NoArgsConstructor
@@ -51,10 +46,10 @@ public class Quaries {
     private AppUser appUser;
 
     @Enumerated(EnumType.STRING)
-    private QuariesStatus quariesStatus;
+    private QueriesStatus queriesStatus;
 
     @Enumerated(EnumType.STRING)
-    private QuariesPriority quariesPriority;
+    private QueriesPriority queriesPriority;
 
     @OneToMany(mappedBy = "quarie", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<QueriesComment> comments = new ArrayList<>();

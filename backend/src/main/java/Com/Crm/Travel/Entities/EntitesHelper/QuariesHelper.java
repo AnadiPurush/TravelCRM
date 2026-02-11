@@ -1,11 +1,10 @@
 package Com.Crm.Travel.Entities.EntitesHelper;
 
-import java.util.ArrayList;
+import Com.Crm.Travel.common.enums.QueriesPriority;
+import Com.Crm.Travel.common.enums.QueriesStatus;
+
 import java.util.Date;
 import java.util.List;
-
-import Com.Crm.Travel.common.enums.QuariesPriority;
-import Com.Crm.Travel.common.enums.QuariesStatus;
 
 public record QuariesHelper(String requesterName,
                             String contactNo,
@@ -16,6 +15,6 @@ public record QuariesHelper(String requesterName,
                             Date toDate,
                             Long quotedPrice,
                             List<String> requiredServices,
-                            QuariesStatus quariesStatus,
-                            QuariesPriority quariesPriority,
+                            QueriesStatus queriesStatus,
+                            QueriesPriority queriesPriority,
                             String assignedUseremail) { }

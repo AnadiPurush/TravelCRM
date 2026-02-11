@@ -1,28 +1,41 @@
 package Com.Crm.Travel.common.enums;
 
-public enum AppUserPermissions {
+import Com.Crm.Travel.common.enums.Response.DisplayEnum;
+
+public enum AppUserPermissions implements DisplayEnum {
     // SALES
-    QUERY_CREATE,
-    QUERY_ASSIGN,
-    QUERY_VIEW,
-    QUOTE_CREATE,
-    QUOTE_UPDATE,
+    QUERY_CREATE("Create Query"),
+    QUERY_ASSIGN("Assign Query"),
+    QUERY_VIEW("View Query"),
+    QUOTE_CREATE("Create Quote"),
+    QUOTE_UPDATE("Update Quote"),
 
     // OPERATIONS
-    TRIP_CREATE,
-    TRIP_ASSIGN,
-    TICKET_UPLOAD,
-    VISA_PROCESS,
+    TRIP_CREATE("Create Trip"),
+    TRIP_ASSIGN("Assign Trip"),
+    TICKET_UPLOAD("Upload Ticket"),
+    VISA_PROCESS("Process Visa"),
 
     // ACCOUNTS
-    EXPENSE_ADD,
-    EXPENSE_VIEW,
-    INVOICE_CREATE,
-    LEDGER_VIEW,
+    EXPENSE_ADD("Add Expense"),
+    EXPENSE_VIEW("View Expense"),
+    INVOICE_CREATE("Create Invoice"),
+    LEDGER_VIEW("View Ledger"),
 
     // ADMIN
-    USER_CREATE,
-    USER_MANAGE,
-    PERMISSION_ASSIGN,
-    SYSTEM_CONFIG
+    USER_CREATE("Create User"),
+    USER_MANAGE("Manage Users"),
+    PERMISSION_ASSIGN("Assign Permission"),
+    SYSTEM_CONFIG("System Configuration");
+
+    private final String displayName;
+
+    AppUserPermissions(String displayName) {
+        this.displayName = displayName;
+    }
+
+    @Override
+    public String getDisplayName() {
+        return displayName;
+    }
 }
