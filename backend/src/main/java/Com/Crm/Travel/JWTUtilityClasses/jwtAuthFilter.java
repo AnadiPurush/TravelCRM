@@ -2,6 +2,9 @@ package Com.Crm.Travel.JWTUtilityClasses;
 
 import java.io.IOException;
 
+import lombok.NonNull;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -22,7 +25,7 @@ import jakarta.servlet.http.HttpServletResponse;
 public class jwtAuthFilter extends OncePerRequestFilter {
     private final JWTUtil jwtUtil;
     private final LoadUserDetailsService user;
-
+private  final Logger log= LoggerFactory.getLogger(this.getClass());
     public jwtAuthFilter(JWTUtil jwtUtil, LoadUserDetailsService user) {
         this.jwtUtil = jwtUtil;
         this.user = user;
@@ -31,7 +34,7 @@ public class jwtAuthFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request,
-            HttpServletResponse response, FilterChain filterChain)
+                                    @NonNull HttpServletResponse response, @NonNull FilterChain filterChain)
             throws ServletException, IOException {
 
         // System.out.println("AUTH HEADER = [" + request.getHeader("Authorization") +
@@ -77,7 +80,18 @@ public class jwtAuthFilter extends OncePerRequestFilter {
                     }
                 }
             } catch (UsernameNotFoundException e) {
-                // log if needed
+                log.error("Authentication failed", e);   // full stacktrace
+
+                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                response.getWriter().write("Unauthorized");
+                return;
+            }
+            catch (Exception e){
+                log.error("Authentication failed", e);   // full stacktrace
+
+                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                response.getWriter().write("Unauthorized");
+                return;
             }
         }
 

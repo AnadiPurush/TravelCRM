@@ -1,13 +1,16 @@
-package Com.Crm.Travel.Services.quarieServices;
+package Com.Crm.Travel.Services;
 
-import org.springframework.data.domain.Page;
-
+import Com.Crm.Travel.Entities.AppUser;
+import Com.Crm.Travel.Entities.DTO.QuariesDetailDTO;
+import Com.Crm.Travel.Entities.EntitesHelper.QuariesHelper;
 import Com.Crm.Travel.Entities.Quaries;
+import org.springframework.data.domain.Page;
+import org.springframework.security.core.Authentication;
 
 public interface QuariesServices {
 
         // Save
-        void saveQuaries(Quaries quaries);
+        boolean saveQuaries(QuariesHelper helper, Authentication authentication);
 
         // Find by assigned user ID with pagination
         public Page<Quaries> findByAppUser_id(Long id, int page, int size, String sortBy);
@@ -30,9 +33,11 @@ public interface QuariesServices {
 
         // Find by assigned user ID and filters
 
-        Page<Quaries> findAllWithFilters(Quaries filter,
-                        int page,
-                        int size,
-                        String sortBy);
+        Page<QuariesDetailDTO> findAllWithFilters(QuariesHelper helper,
+                                                  AppUser user,
+                                                  int page,
+                                                  int size,
+                                                  String sortBy);
 
+        Quaries findById(Long Id);
 }

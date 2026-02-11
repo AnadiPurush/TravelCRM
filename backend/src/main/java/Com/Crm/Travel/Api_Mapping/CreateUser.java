@@ -1,18 +1,13 @@
 package Com.Crm.Travel.Api_Mapping;
 
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.Authentication;
-import org.springframework.web.bind.annotation.PatchMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
 import Com.Crm.Travel.Entities.AppUser;
 import Com.Crm.Travel.Entities.EntitesHelper.ChangePasswordRequest;
 import Com.Crm.Travel.Entities.EntitesHelper.UserCreateRequest;
-import Com.Crm.Travel.Services.appUserServices.AppUserServices;
+import Com.Crm.Travel.Services.AppUserServices;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/adminCRUD")
@@ -26,7 +21,7 @@ public class CreateUser {
     }
 
     @PreAuthorize("hasRole('SUPERADMIN')or hasAuthority('USER_CREATE')")
-    @PostMapping("/admin/createUser")
+    @PostMapping("admin/createUser")
     public boolean createUserRequest(@RequestBody UserCreateRequest request) {
         try {
             services.saveUser(request);
@@ -41,7 +36,7 @@ public class CreateUser {
             Authentication authentication) {
         AppUser user = (AppUser) authentication.getPrincipal();
         services.changePassword(user.getUsername(), req);
-        return ResponseEntity.ok("Passwors Updated  successfully");
+        return ResponseEntity.ok("Password Updated  successfully");
     }
 
     @PatchMapping("/forgetPassword")

@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Lazy;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import Com.Crm.Travel.Entities.AppUser;
-import Com.Crm.Travel.Services.appUserServices.AppUserServices;
+import Com.Crm.Travel.Services.AppUserServices;
 import Com.Crm.Travel.common.enums.AppUserPermissions;
 
 @Configuration

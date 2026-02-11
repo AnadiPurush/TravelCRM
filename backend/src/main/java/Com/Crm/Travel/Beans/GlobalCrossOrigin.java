@@ -11,20 +11,18 @@ import lombok.NonNull;
 public class GlobalCrossOrigin {
     @Bean
     public WebMvcConfigurer corsConfigurer() {
-        return new WebMvcConfigurer() {
-            @SuppressWarnings("null")
-            @Override
-            @NonNull
-            public void addCorsMappings(CorsRegistry registry) {
-                registry.addMapping("/api/**")
 
-                        .allowedOrigins("http://localhost:4200")
-                        .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
-                        .allowCredentials(true)
-                        .allowedHeaders("*");
-            }
-
-        };
+            return new WebMvcConfigurer() {
+                @Override
+                public void addCorsMappings(@NonNull CorsRegistry registry) {
+                    registry.addMapping("/**")
+                            .allowedOrigins("http://localhost:4200")
+                            .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
+                            .allowedHeaders("*")
+                            .allowCredentials(true)
+                            .maxAge(3600); // Cache preflight response for 1 hour
+                }
+            };
 
     }
 }

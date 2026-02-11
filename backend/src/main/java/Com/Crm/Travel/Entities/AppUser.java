@@ -1,41 +1,25 @@
 package Com.Crm.Travel.Entities;
 
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
+import Com.Crm.Travel.common.enums.AppUserPermissions;
+import Com.Crm.Travel.common.enums.Department;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.*;
+import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
-import Com.Crm.Travel.common.enums.AppUserPermissions;
-import Com.Crm.Travel.common.enums.Department;
-import jakarta.persistence.CollectionTable;
-import jakarta.persistence.Column;
-import jakarta.persistence.ElementCollection;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToMany;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 @Entity
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString(exclude = "password")
+
 public class AppUser implements UserDetails {
     @Id
     @GeneratedValue
@@ -43,6 +27,7 @@ public class AppUser implements UserDetails {
     private String name;
     @Column(nullable = false)
     @JsonIgnore
+    @ToString.Exclude
     private String password;
     @Column(nullable = false, unique = true)
     private String email;
@@ -51,11 +36,12 @@ public class AppUser implements UserDetails {
     // life cycle control
     private boolean enabled = true;
     private boolean locked = false;
-
+    @ToString.Exclude
     @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name = "app_user_permissions", joinColumns = @JoinColumn(name = "user_id"))
     @Enumerated(EnumType.STRING)
     @Column(name = "permissions", length = 1000)
+
     private Set<AppUserPermissions> permissions = new HashSet<>();
 
     @OneToMany(mappedBy = "appUser")
@@ -84,22 +70,23 @@ public class AppUser implements UserDetails {
         return this.password;
     }
 
-    public boolean isSuperAdmin() {
-        return superAdmin;
-    }
 
     @Override
     public String getUsername() {
         return this.email;
     }
 
-    public boolean isManager() {
-        return manager;
-    }
 
     @Override
     public boolean isAccountNonLocked() {
         return !locked;
+    }
+
+    @Override
+    public String toString() {
+        return "AppUser{" +
+                "name='" + name + '\'' +
+                '}';
     }
 
     @Override
@@ -108,3 +95,5 @@ public class AppUser implements UserDetails {
     }
 
 }
+
+

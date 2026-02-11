@@ -1,18 +1,19 @@
 package Com.Crm.Travel.Repo;
 
-import java.util.Optional;
-
+import Com.Crm.Travel.Entities.AppUser;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import Com.Crm.Travel.Entities.AppUser;
+import java.util.List;
+import java.util.Optional;
 
 @Repository
-public interface AppUserRepo extends JpaRepository<AppUser, String> {
-    boolean existsByEmail(String userEmail);
+public interface AppUserRepo extends JpaRepository<AppUser, Long> {
+	boolean existsByEmail(String userEmail);
 
-    AppUser findByEmail(String useremail);
+	AppUser findByEmail(String useremail);
 
-    Optional<AppUser> findByName(String name);
+	Optional<AppUser> findByName(String name);
 
+	List<AppUser> findUserByEmail(String email);
 }

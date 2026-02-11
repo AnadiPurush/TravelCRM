@@ -7,18 +7,7 @@ import java.util.List;
 
 import Com.Crm.Travel.common.enums.QuariesPriority;
 import Com.Crm.Travel.common.enums.QuariesStatus;
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -41,12 +30,20 @@ public class Quaries {
     private String requesterName;
     private String contactNo;
     private String email;
-    private ArrayList<String> Destination;
+    @ToString.Exclude
+    @ElementCollection(fetch = FetchType.EAGER)
+    @CollectionTable(name = "destination", joinColumns = @JoinColumn(name = "quaries_serialNumber"))
+    @Column(name = "destination")
+    private List<String> Destination;
     private String fromLocation;
     private Date fromDate;
     private Date toDate;
     private Long quotedPrice;
-    private ArrayList<String> requiredServices;
+    @ToString.Exclude
+    @ElementCollection(fetch = FetchType.EAGER)
+    @CollectionTable(name = "required_services", joinColumns = @JoinColumn(name = "quaries_serialNumber"))
+    @Column(name = "requiredServices")
+    private List<String> requiredServices;
     private LocalDateTime createdAt;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -60,8 +57,8 @@ public class Quaries {
     private QuariesPriority quariesPriority;
 
     @OneToMany(mappedBy = "quarie", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<QuariesComment> comments = new ArrayList<>();
-
+    private List<QueriesComment> comments = new ArrayList<>();
+@PrePersist
     protected void createdAt() {
         this.createdAt = LocalDateTime.now();
     }

@@ -1,17 +1,16 @@
-package Com.Crm.Travel.Services.servicesImpl.appUserImpl;
+package Com.Crm.Travel.Services.servicesImpl;
 
+import Com.Crm.Travel.Entities.AppUser;
+import Com.Crm.Travel.Entities.EntitesHelper.ChangePasswordRequest;
+import Com.Crm.Travel.Entities.EntitesHelper.UserCreateRequest;
+import Com.Crm.Travel.Repo.AppUserRepo;
+import Com.Crm.Travel.Services.AppUserServices;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import Com.Crm.Travel.Entities.AppUser;
-import Com.Crm.Travel.Entities.EntitesHelper.ChangePasswordRequest;
-import Com.Crm.Travel.Entities.EntitesHelper.UserCreateRequest;
-import Com.Crm.Travel.Repo.AppUserRepo;
-import Com.Crm.Travel.Services.appUserServices.AppUserServices;
 
 @Service
 public class AppUserServicesImpl implements AppUserServices {
