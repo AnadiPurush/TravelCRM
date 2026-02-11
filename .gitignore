@@ -13,7 +13,10 @@ target/
 
 # OS files
 .DS_Store
-
+.project
+.classpath
+.factorypath
+.settings/
 
 # Spring Boot config
 backend/src/main/resources/application.properties
