@@ -22,8 +22,13 @@ import java.util.List;
  * - UI configuration APIs
  */
 public class Mapper {
-    public static <T extends Enum<T> & DisplayEnum> List<EnumResponse> map(T[] enumConstants) {
-        return Arrays.stream(enumConstants)
+    private Mapper() {
+    } // prevent instantiation
+
+    public static <T extends Enum<T> & DisplayEnum>
+    List<EnumResponse> map(Class<T> enumClass) {
+
+        return Arrays.stream(enumClass.getEnumConstants())
                 .map(e -> new EnumResponse(e.name(), e.getDisplayName()))
                 .toList();
     }

@@ -85,8 +85,6 @@ public class SecurityConfig {
                                                 .requestMatchers("/api/**").authenticated())
                         .formLogin(AbstractHttpConfigurer::disable)
                         .httpBasic(AbstractHttpConfigurer::disable)
-                                .sessionManagement(session -> session
-                                                .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                                 .addFilterBefore(jwtauthfilter,
                                                 UsernamePasswordAuthenticationFilter.class)
 

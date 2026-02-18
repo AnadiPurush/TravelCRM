@@ -1,19 +1,18 @@
 package com.crm.travel.security.jwt;
 
-import java.util.Date;
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.stereotype.Component;
-
 import com.crm.travel.user.domain.User;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.stereotype.Component;
+
+import java.util.Date;
+import java.util.List;
 
 @Component
 @Getter
@@ -28,8 +27,6 @@ public class JWTUtil {
         System.out.print(username);
         return Jwts.builder()
                 .setSubject(username) // 👈 identity (email)
-                .claim("superAdmin", user.isSuperAdmin()) // 👈 boolean
-                .claim("permissions", permissions) // 👈 list of strings
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 10))
                 .signWith(Keys.hmacShaKeyFor(SecretKey.getBytes()), SignatureAlgorithm.HS256)
@@ -42,7 +39,7 @@ public class JWTUtil {
                 .getBody().getSubject();
     }
 
-    public boolean valididateToken(String token, UserDetails appUser) {
+    public boolean validateToken(String token, UserDetails appUser) {
         return extractUserName(token).equals(appUser.getUsername()) && !isTokenExpired(token);
     }
 

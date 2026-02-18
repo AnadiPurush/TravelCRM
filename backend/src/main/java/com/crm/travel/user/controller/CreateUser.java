@@ -1,5 +1,6 @@
 package com.crm.travel.user.controller;
 
+import com.crm.travel.common.globalinterface.ApiController;
 import com.crm.travel.user.domain.User;
 import com.crm.travel.user.dto.request.ChangePasswordRequest;
 import com.crm.travel.user.dto.request.UserRequest;
@@ -7,10 +8,13 @@ import com.crm.travel.user.service.UserServices;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/adminCRUD")
+@ApiController
 
 public class CreateUser {
     private final UserServices services;

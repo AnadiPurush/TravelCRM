@@ -6,7 +6,8 @@ public enum Department implements DisplayEnum {
 
     SALES("Sales"),
     OPERATIONS("Operations"),
-    ACCOUNTS("Accounts");
+    ACCOUNTS("Accounts"),
+    GLOBAL("Global Access ");
 
     private final String displayName;
 
@@ -18,4 +19,6 @@ public enum Department implements DisplayEnum {
     public String getDisplayName() {
         return displayName;
     }
+
+
 }

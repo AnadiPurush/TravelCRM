@@ -1,6 +1,7 @@
 package com.crm.travel.user.event;
 
 import com.crm.travel.user.domain.User;
+import com.crm.travel.user.enums.Department;
 import com.crm.travel.user.enums.Roles;
 import com.crm.travel.user.enums.UserPermissions;
 import com.crm.travel.user.service.UserServices;
@@ -39,6 +40,7 @@ public class DataInitializer {
                 admin.setEnabled(true);
                 admin.setLocked(false);
                 admin.setRole(Roles.SUPER_ADMIN);
+                admin.setDepartment(Department.GLOBAL);
                 admin.setPermissions(Set.of(
                         UserPermissions.EXPENSE_ADD,
                         UserPermissions.EXPENSE_VIEW,

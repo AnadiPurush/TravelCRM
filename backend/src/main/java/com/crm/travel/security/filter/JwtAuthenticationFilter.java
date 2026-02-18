@@ -1,8 +1,11 @@
 package com.crm.travel.security.filter;
 
-import java.io.IOException;
-
 import com.crm.travel.security.jwt.JWTUtil;
+import com.crm.travel.security.service.CustomUserDetailsService;
+import jakarta.servlet.FilterChain;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.NonNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,11 +19,7 @@ import org.springframework.security.web.authentication.WebAuthenticationDetailsS
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import com.crm.travel.security.service.CustomUserDetailsService;
-import jakarta.servlet.FilterChain;
-import jakarta.servlet.ServletException;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 @Component
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
@@ -66,7 +65,7 @@ private  final Logger log= LoggerFactory.getLogger(this.getClass());
 
                     UserDetails userDetails = user.loadUserByUsername(username);
 
-                    if (jwtUtil.valididateToken(token, userDetails)) {
+                    if (jwtUtil.validateToken(token, userDetails)) {
 
                         UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
                                 userDetails,

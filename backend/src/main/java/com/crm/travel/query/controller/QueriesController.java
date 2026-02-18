@@ -1,5 +1,6 @@
 package com.crm.travel.query.controller;
 
+import com.crm.travel.common.globalinterface.ApiController;
 import com.crm.travel.query.dto.QueriesDetailDTO;
 import com.crm.travel.query.dto.request.QueryRequest;
 import com.crm.travel.query.service.QuariesServices;
@@ -15,7 +16,8 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/quariesCRUD")
+@ApiController
+
 public class QueriesController {
     private final QuariesServices quariesServices;
 
@@ -37,7 +39,7 @@ public class QueriesController {
 
     // return quaries with the help of example matcher and force that user must be
     // authenticated to ensure that only user assigned quaries will be fetched
-    @PreAuthorize("authenticated")
+
     @GetMapping("return/Quaries")
     public Page<QueriesDetailDTO> getQueriesByUser(
             @ModelAttribute QueryRequest helper,
@@ -53,10 +55,8 @@ public class QueriesController {
 
     }
 
-    @PreAuthorize("isAuthenticated()")
+
     public String updateQuery(@RequestBody QueryRequest helper) {
-
-
         return quariesServices.updateQuery(helper);
     }
 

@@ -1,14 +1,14 @@
 package com.crm.travel.config;
 
-import com.crm.travel.query.domain.QueryAssignment;
-import com.crm.travel.user.domain.User;
 import com.crm.travel.query.domain.Queries;
+import com.crm.travel.query.domain.QueryAssignment;
 import com.crm.travel.query.event.QueryCreatedEvent;
-import com.crm.travel.user.repository.UserRepo;
 import com.crm.travel.query.repository.QuariesRepo;
 import com.crm.travel.query.repository.QueryAssignmentRepo;
+import com.crm.travel.user.domain.User;
 import com.crm.travel.user.enums.Department;
 import com.crm.travel.user.enums.Roles;
+import com.crm.travel.user.repository.UserRepo;
 import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -68,13 +68,13 @@ public class RedisService {
 
         User salesExec = this.getNextUserToAssign(Department.SALES, Roles.SALES_EXECUTIVE);
         User salesManager = this.getNextUserToAssign(Department.SALES, Roles.SALES_MANAGER);
-//        User opsExec = this.getNextUserToAssign(Department.OPERATIONS, Roles.OPERATIONS_EXECUTIVE);
-//        User opsManager = this.getNextUserToAssign(Department.OPERATIONS, Roles.OPERATIONS_MANAGER);
+        User opsExec = this.getNextUserToAssign(Department.OPERATIONS, Roles.OPERATIONS_EXECUTIVE);
+        User opsManager = this.getNextUserToAssign(Department.OPERATIONS, Roles.OPERATIONS_MANAGER);
 
         QueryAssignment q1 = QueryAssignment.builder().querie(queries).user(salesExec).roles(Roles.SALES_EXECUTIVE).department(Department.SALES).build();
         QueryAssignment q2 = QueryAssignment.builder().querie(queries).user(salesManager).roles(Roles.SALES_MANAGER).department(Department.SALES).build();
-//        QueryAssignment q3 = QueryAssignment.builder().querie(quaries).user(opsExec).roles(Roles.OPERATIONS_EXECUTIVE).department(Department.OPERATIONS).build();
-//        QueryAssignment q4 = QueryAssignment.builder().querie(quaries).user(opsManager).roles(Roles.OPERATIONS_MANAGER).department(Department.OPERATIONS).build();
+        QueryAssignment q3 = QueryAssignment.builder().querie(queries).user(opsExec).roles(Roles.OPERATIONS_EXECUTIVE).department(Department.OPERATIONS).build();
+        QueryAssignment q4 = QueryAssignment.builder().querie(queries).user(opsManager).roles(Roles.OPERATIONS_MANAGER).department(Department.OPERATIONS).build();
         List<QueryAssignment> saveEntity = List.of(q1, q2);
         System.out.println("Is synchronization active: " +
                 TransactionSynchronizationManager.isSynchronizationActive());

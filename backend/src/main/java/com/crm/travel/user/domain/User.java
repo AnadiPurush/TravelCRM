@@ -1,7 +1,6 @@
 package com.crm.travel.user.domain;
 
 import com.crm.travel.query.domain.QueryAssignment;
-import com.crm.travel.user.enums.Department;
 import com.crm.travel.user.enums.Roles;
 import com.crm.travel.user.enums.UserPermissions;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -11,10 +10,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 @Getter
@@ -24,8 +20,8 @@ import java.util.Set;
 
 public class User implements UserDetails {
     @Id
-    @GeneratedValue()
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private UUID id;
     private String name;
     @Column(nullable = false)
     @JsonIgnore
@@ -49,12 +45,22 @@ public class User implements UserDetails {
 
     @OneToMany(mappedBy = "user")
     private List<QueryAssignment> assignedQueries;
-    @Column(nullable = false)
-    @Enumerated(EnumType.STRING)
-    private Department department;
+
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private Roles role;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "org_unit_id", nullable = false)
+    @JsonIgnore
+    private OrgUnit orgUnit;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "reporting_manager_id")
+    @JsonIgnore
+    private User reportingManager;
+    @OneToMany(mappedBy = "reportingManager", fetch = FetchType.LAZY)
+    @JsonIgnore
+    private List<User> subordinates = new ArrayList<>();
 
     @Enumerated(EnumType.STRING)
     @Override
