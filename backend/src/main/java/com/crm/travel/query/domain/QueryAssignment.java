@@ -1,7 +1,6 @@
 package com.crm.travel.query.domain;
 
 import com.crm.travel.user.domain.User;
-import com.crm.travel.user.enums.Department;
 import com.crm.travel.user.enums.Roles;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -31,8 +30,7 @@ public class QueryAssignment {
     @Enumerated(EnumType.STRING)
     private Roles roles;
 
-    @Enumerated(EnumType.STRING)
-    private Department department;
+
     private LocalDateTime assignedAt;
 
     @PrePersist

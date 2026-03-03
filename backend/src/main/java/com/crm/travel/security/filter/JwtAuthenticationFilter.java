@@ -87,13 +87,6 @@ private  final Logger log= LoggerFactory.getLogger(this.getClass());
                 response.getWriter().write("Unauthorized");
                 return;
             }
-            catch (Exception e){
-                log.error("Authentication failed", e);   // full stacktrace
-
-                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-                response.getWriter().write("Unauthorized");
-                return;
-            }
         }
 
         filterChain.doFilter(request, response);

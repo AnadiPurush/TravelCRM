@@ -3,6 +3,7 @@ package com.crm.travel.user.domain;
 import com.crm.travel.query.domain.QueryAssignment;
 import com.crm.travel.user.enums.Roles;
 import com.crm.travel.user.enums.UserPermissions;
+import com.crm.travel.user.organisationHierarchy.domain.OrgUnit;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
@@ -17,7 +18,7 @@ import java.util.*;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-
+@Builder
 public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -30,18 +31,17 @@ public class User implements UserDetails {
     @Column(nullable = false, unique = true)
     private String email;
     private boolean superAdmin;
-    private boolean manager;
 
 
     // life cycle control
     private boolean enabled = true;
     private boolean locked = false;
 
-    @ElementCollection(fetch = FetchType.EAGER)
+
     @CollectionTable(name = "app_user_permissions", joinColumns = @JoinColumn(name = "user_id"))
     @Enumerated(EnumType.STRING)
     @Column(name = "permissions", length = 1000)
-    private Set<UserPermissions> permissions = new HashSet<>();
+    private Set<UserPermissions> permissions;
 
     @OneToMany(mappedBy = "user")
     private List<QueryAssignment> assignedQueries;
@@ -61,20 +61,28 @@ public class User implements UserDetails {
     @OneToMany(mappedBy = "reportingManager", fetch = FetchType.LAZY)
     @JsonIgnore
     private List<User> subordinates = new ArrayList<>();
+    @ManyToMany
+    @JoinTable(
+            name = "user_secondary_managers",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "manager_id")
+    )
+    private Set<User> secondaryManagers;
 
     @Enumerated(EnumType.STRING)
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         Set<GrantedAuthority> authorities = new HashSet<>();
-        if (this.superAdmin) {
-            authorities.add(new SimpleGrantedAuthority("ROLE_SUPERADMIN"));
-            for (UserPermissions p : UserPermissions.values())
-                authorities.add(new SimpleGrantedAuthority(p.name()));
-        } else {
-            for (UserPermissions p : this.permissions)
-                authorities.add(new SimpleGrantedAuthority(p.name()));
-        }
+        if (isSuperAdmin()) {
 
+            authorities.add(new SimpleGrantedAuthority("ROLE_SUPERADMIN"));
+            Arrays.stream(UserPermissions.values()).map(p -> new SimpleGrantedAuthority(p.name())).forEach(authorities::add);
+        } else {
+            permissions.stream()
+                    .map(p -> new SimpleGrantedAuthority(p.name()))
+                    .forEach(authorities::add);
+
+        }
         return authorities;
     }
 

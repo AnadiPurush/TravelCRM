@@ -1,6 +1,5 @@
 package com.crm.travel.query.service;
 
-import com.crm.travel.config.RedisService;
 import com.crm.travel.query.comment.domain.QueriesComment;
 import com.crm.travel.query.comment.dto.QueriesCommentDTO;
 import com.crm.travel.query.comment.service.QueriesCommentService;
@@ -31,7 +30,6 @@ public class QueriesServicesImpl implements QuariesServices {
     private final QuariesRepo quariesRepo;
     private final UserRepo userRepo;
     private final QueriesCommentService queriesCommentService;
-    private final RedisService redisService;
     private final QueryAssignmentRepo queryAssignmentRepo;
     private final ApplicationEventPublisher applicationEventPublisher;
 
@@ -123,7 +121,6 @@ public class QueriesServicesImpl implements QuariesServices {
                             .map(u -> AssignedUserDTO.builder()
                                     .displayName(user.getName())
                                     .email(user.getEmail())
-                                    .department(user.getDepartment())
                                     .role(user.getRole())
                                     .build())
                             .toList();

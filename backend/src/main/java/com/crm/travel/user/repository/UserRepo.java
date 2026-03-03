@@ -1,16 +1,17 @@
 package com.crm.travel.user.repository;
 
 import com.crm.travel.user.domain.User;
-import com.crm.travel.user.enums.Department;
 import com.crm.travel.user.enums.Roles;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Repository
-public interface UserRepo extends JpaRepository<User, Long> {
+public interface UserRepo extends JpaRepository<User, UUID>, JpaSpecificationExecutor<User> {
 	boolean existsByEmail(String userEmail);
 
 	User findByEmail(String userEmail);
@@ -19,8 +20,8 @@ public interface UserRepo extends JpaRepository<User, Long> {
 
 	List<User> findByAssignedQueries_Querie_SerialNumberIn(List<Long> Id);
 
-	List<User> findByDepartment(Department department);
+//	List<User> findBy(Department department);
 
-	List<User> findByDepartmentAndRoleOrderByIdAsc(Department department, Roles role);
+	List<User> findByRoleOrderByIdAsc(Roles role);
 
 }

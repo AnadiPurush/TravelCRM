@@ -27,6 +27,7 @@ public class JWTUtil {
         System.out.print(username);
         return Jwts.builder()
                 .setSubject(username) // 👈 identity (email)
+                .claim("permissions", permissions)
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 10))
                 .signWith(Keys.hmacShaKeyFor(SecretKey.getBytes()), SignatureAlgorithm.HS256)
