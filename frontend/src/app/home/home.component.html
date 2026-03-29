@@ -1,0 +1,136 @@
+<div class="dashboard-container" *ngIf="dashboardData$ | async as data; else loading">
+
+    <section class="kpi-grid">
+        <mat-card class="kpi-card">
+            <mat-card-content>
+                <div class="kpi-header">
+                    <span class="kpi-title">{{ data.kpis.totalBookings.title }}</span>
+                    <mat-icon class="kpi-icon primary-icon">{{ data.kpis.totalBookings.icon }}</mat-icon>
+                </div>
+                <div class="kpi-body">
+                    <h2 class="kpi-value">{{ data.kpis.totalBookings.value }}</h2>
+                </div>
+                <div class="kpi-footer" [class.positive]="data.kpis.totalBookings.growth > 0"
+                    [class.negative]="data.kpis.totalBookings.growth < 0">
+                    <mat-icon>{{ data.kpis.totalBookings.growth > 0 ? 'trending_up' : 'trending_down' }}</mat-icon>
+                    <span>{{ data.kpis.totalBookings.growth }}%</span>
+                </div>
+            </mat-card-content>
+        </mat-card>
+
+        <mat-card class="kpi-card">
+            <mat-card-content>
+                <div class="kpi-header">
+                    <span class="kpi-title">{{ data.kpis.revenue.title }}</span>
+                    <mat-icon class="kpi-icon success-icon">{{ data.kpis.revenue.icon }}</mat-icon>
+                </div>
+                <div class="kpi-body">
+                    <h2 class="kpi-value">{{ data.kpis.revenue.value | currency }}</h2>
+                </div>
+                <div class="kpi-footer" [class.positive]="data.kpis.revenue.growth > 0"
+                    [class.negative]="data.kpis.revenue.growth < 0">
+                    <mat-icon>{{ data.kpis.revenue.growth > 0 ? 'trending_up' : 'trending_down' }}</mat-icon>
+                    <span>{{ data.kpis.revenue.growth }}%</span>
+                </div>
+            </mat-card-content>
+        </mat-card>
+
+        <mat-card class="kpi-card">
+            <mat-card-content>
+                <div class="kpi-header">
+                    <span class="kpi-title">{{ data.kpis.activeCustomers.title }}</span>
+                    <mat-icon class="kpi-icon info-icon">{{ data.kpis.activeCustomers.icon }}</mat-icon>
+                </div>
+                <div class="kpi-body">
+                    <h2 class="kpi-value">{{ data.kpis.activeCustomers.value }}</h2>
+                </div>
+                <div class="kpi-footer" [class.positive]="data.kpis.activeCustomers.growth > 0"
+                    [class.negative]="data.kpis.activeCustomers.growth < 0">
+                    <mat-icon>{{ data.kpis.activeCustomers.growth > 0 ? 'trending_up' : 'trending_down' }}</mat-icon>
+                    <span>{{ data.kpis.activeCustomers.growth }}%</span>
+                </div>
+            </mat-card-content>
+        </mat-card>
+
+        <mat-card class="kpi-card">
+            <mat-card-content>
+                <div class="kpi-header">
+                    <span class="kpi-title">{{ data.kpis.pendingPayments.title }}</span>
+                    <mat-icon class="kpi-icon warning-icon">{{ data.kpis.pendingPayments.icon }}</mat-icon>
+                </div>
+                <div class="kpi-body">
+                    <h2 class="kpi-value">{{ data.kpis.pendingPayments.value }}</h2>
+                </div>
+                <div class="kpi-footer" [class.positive]="data.kpis.pendingPayments.growth > 0"
+                    [class.negative]="data.kpis.pendingPayments.growth < 0">
+                    <mat-icon>{{ data.kpis.pendingPayments.growth > 0 ? 'trending_up' : 'trending_down' }}</mat-icon>
+                    <span>{{ data.kpis.pendingPayments.growth }}%</span>
+                </div>
+            </mat-card-content>
+        </mat-card>
+    </section>
+
+    <section class="charts-grid">
+        <mat-card class="chart-card">
+            <mat-card-header>
+                <mat-card-title>Monthly Revenue</mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+                <div class="chart-container">
+                    <p-chart type="line" [data]="data.revenueChart" [options]="chartOptions"></p-chart>
+                </div>
+            </mat-card-content>
+        </mat-card>
+
+        <mat-card class="chart-card">
+            <mat-card-header>
+                <mat-card-title>Booking Distribution</mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+                <div class="chart-container">
+                    <p-chart type="doughnut" [data]="data.distributionChart" [options]="chartOptions"></p-chart>
+                </div>
+            </mat-card-content>
+        </mat-card>
+    </section>
+
+    <section class="table-section">
+        <mat-card>
+            <mat-card-header>
+                <mat-card-title>Recent Bookings</mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+                <p-table [value]="data.recentBookings" [rowTrackBy]="trackByBookingId"
+                    styleClass="p-datatable-sm p-datatable-striped" [paginator]="true" [rows]="5">
+                    <ng-template pTemplate="header">
+                        <tr>
+                            <th>Booking ID</th>
+                            <th>Customer Name</th>
+                            <th>Destination</th>
+                            <th>Status</th>
+                            <th>Amount</th>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-booking let-i="rowIndex">
+                        <tr>
+                            <td><strong>{{ booking.id }}</strong></td>
+                            <td>{{ booking.customerName }}</td>
+                            <td>{{ booking.destination }}</td>
+                            <td>
+                                <p-tag [value]="booking.status" [severity]="getSeverity(booking.status)"></p-tag>
+                            </td>
+                            <td>{{ booking.amount | currency }}</td>
+                        </tr>
+                    </ng-template>
+                </p-table>
+            </mat-card-content>
+        </mat-card>
+    </section>
+</div>
+
+<ng-template #loading>
+    <div class="loading-state">
+        <mat-icon class="spinner">autorenew</mat-icon>
+        <p>Loading Dashboard...</p>
+    </div>
+</ng-template>

@@ -1,0 +1,36 @@
+<div class="table-container">
+    <table>
+        <thead>
+            <tr>
+                <th>Serial Number</th>
+                <th>Requester Name</th>
+                <th>Status</th>
+                <th>Priority</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let query of queries; trackBy: trackBySerialNumber">
+                <td>{{query.serialNumber}}</td>
+                <td>{{query.requesterName}}</td>
+                <td><span class="badge status-{{query.queriesStatus?.toLowerCase()}}">{{query.queriesStatus}}</span>
+                </td>
+                <td><span
+                        class="badge priority-{{query.queriesPriority?.toLowerCase()}}">{{query.queriesPriority}}</span>
+                </td>
+                <td>
+                    <button class="btn-view" (click)="onView(query)">View</button>
+                </td>
+            </tr>
+            <tr *ngIf="queries.length === 0">
+                <td colspan="5" class="text-center">No queries found.</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="pagination" *ngIf="totalPages > 0">
+        <button [disabled]="page === 0" (click)="changePage(page - 1)">Previous</button>
+        <span>Page {{page + 1}} of {{totalPages}}</span>
+        <button [disabled]="page >= totalPages - 1" (click)="changePage(page + 1)">Next</button>
+    </div>
+</div>

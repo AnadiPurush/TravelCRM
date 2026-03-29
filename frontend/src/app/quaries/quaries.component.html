@@ -1,0 +1,38 @@
+<div class="query-page-container">
+    <div class="top-bar">
+        <h1>Query Management</h1>
+        <button class="btn-primary" (click)="openCreateModal()">Create Query</button>
+    </div>
+
+    <div class="filters-section">
+        <input type="text" placeholder="Requester Name" [(ngModel)]="filters.requesterName" (input)="onFilterChange()">
+        <input type="text" placeholder="Contact No" [(ngModel)]="filters.contactNo" (input)="onFilterChange()">
+        <input type="email" placeholder="Email" [(ngModel)]="filters.email" (input)="onFilterChange()">
+
+        <select [(ngModel)]="filters.queriesStatus" (change)="onFilterChange()">
+            <option value="">All Statuses</option>
+            <option *ngFor="let status of statuses; trackBy: trackByName" [value]="status.name">{{status.displayName}}
+            </option>
+        </select>
+
+        <select [(ngModel)]="filters.queriesPriority" (change)="onFilterChange()">
+            <option value="">All Priorities</option>
+            <option *ngFor="let priority of priorities; trackBy: trackByName" [value]="priority.name">
+                {{priority.displayName}}</option>
+        </select>
+
+        <input type="text" placeholder="From Location" [(ngModel)]="filters.fromLocation" (input)="onFilterChange()">
+        <input type="text" placeholder="To Location" [(ngModel)]="filters.toLocation" (input)="onFilterChange()">
+    </div>
+
+    <app-query-table-component [queries]="queries" [page]="currentPage" [totalPages]="totalPages"
+        (pageChange)="onPageChange($event)" (view)="openViewModal($event)">
+    </app-query-table-component>
+
+    <app-query-view-modal *ngIf="isViewModalOpen" [query]="selectedQuery" (close)="closeModals()">
+    </app-query-view-modal>
+
+    <app-create-query-modal *ngIf="isCreateModalOpen" [statuses]="statuses" [priorities]="priorities"
+        (close)="closeModals()" (success)="onQueryCreated()">
+    </app-create-query-modal>
+</div>

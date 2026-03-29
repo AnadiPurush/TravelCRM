@@ -1,0 +1,84 @@
+<nav class="crm-navbar" *ngIf="isLoggedIn">
+    <div class="navbar-left">
+        <button class="logo-icon-btn" type="button" (click)="toggleSidebar()" aria-label="Toggle Menu">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M3 3h8v8H3zm10 0h8v8h-8zM3 13h8v8H3zm10 0h8v8h-8z" />
+            </svg>
+        </button>
+        <span class="logo-text">CRM Central</span>
+    </div>
+
+    <div class="navbar-center">
+        <div class="search-wrapper">
+            <span class="search-icon">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="11" cy="11" r="8"></circle>
+                    <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                </svg>
+            </span>
+            <input type="text" class="search-input" placeholder="Search across CRM..." />
+        </div>
+    </div>
+
+    <div class="navbar-right">
+        <button class="icon-btn" aria-label="Mail">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                <polyline points="22,6 12,13 2,6"></polyline>
+            </svg>
+        </button>
+
+        <button class="icon-btn" aria-label="Notifications">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+                <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+            </svg>
+        </button>
+
+        <button class="icon-btn" (click)="toggleTheme()"
+            [attr.aria-label]="'Toggle to ' + (currentTheme === 'dark' ? 'light' : 'dark') + ' mode'">
+            <svg *ngIf="currentTheme === 'dark'" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2">
+                <!-- Moon icon for dark mode state -->
+                <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+            </svg>
+            <svg *ngIf="currentTheme === 'light'" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2">
+                <!-- Sun icon for light mode state -->
+                <circle cx="12" cy="12" r="5"></circle>
+                <line x1="12" y1="1" x2="12" y2="3"></line>
+                <line x1="12" y1="21" x2="12" y2="23"></line>
+                <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                <line x1="1" y1="12" x2="3" y2="12"></line>
+                <line x1="21" y1="12" x2="23" y2="12"></line>
+                <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+            </svg>
+        </button>
+        <div class="user-profile-wrapper" #profileDropdownContainer>
+            <button class="user-profile" type="button" aria-haspopup="true" [attr.aria-expanded]="profileDropdownOpen"
+                (click)="toggleProfileDropdown()">
+                <div class="avatar-placeholder">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                        <circle cx="12" cy="7" r="4"></circle>
+                    </svg>
+                </div>
+                <div class="user-info" *ngIf="user$ | async as user">
+                    <span class="username">{{ user.name }}</span>
+                </div>
+            </button>
+
+            <div class="profile-dropdown" *ngIf="profileDropdownOpen" role="menu" aria-label="Profile options">
+                <button type="button" class="dropdown-item" role="menuitem"
+                    (click)="navigateTo('/profile')">Profile</button>
+                <div class="dropdown-divider" role="separator"></div>
+                <button type="button" class="dropdown-item logout-item" role="menuitem"
+                    (click)="logout()">Logout</button>
+            </div>
+        </div>
+
+        <div class="dropdown-backdrop" *ngIf="profileDropdownOpen" (click)="closeProfileDropdown()"></div>
+    </div>
+</nav>

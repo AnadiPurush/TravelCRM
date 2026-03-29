@@ -1,0 +1,41 @@
+<div class="login-container">
+
+    <div class="login-left">
+        <div class="branding-panel">
+            <h1 class="brand-title">CRM Central</h1>
+            <p class="brand-subtitle">Enterprise Relationship Management</p>
+        </div>
+    </div>
+
+    <div class="login-right">
+        <div class="login-card">
+            <h2 class="card-title">Sign In</h2>
+            <p class="card-desc">Access your dashboard</p>
+
+            <form (ngSubmit)="onSubmit()" #loginForm="ngForm">
+
+                <div class="form-group">
+                    <label for="username">Username or Email</label>
+                    <input type="text" id="username" name="username" [(ngModel)]="username" required
+                        placeholder="Enter your username" />
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" [(ngModel)]="password" required
+                        placeholder="Enter your password" />
+                </div>
+
+                <div class="error-panel" *ngIf="error">
+                    {{ error }}
+                </div>
+
+                <button type="submit" class="submit-btn" [disabled]="loginForm.invalid">
+                    Login
+                </button>
+
+            </form>
+        </div>
+    </div>
+
+</div>

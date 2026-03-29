@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <title>CrmFrontendAngular</title>
+  <base href="/">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <script>
+    /* Initialize theme from localStorage before app loads to prevent flash */
+    (function () {
+      try {
+        const theme = localStorage.getItem('app-theme') || 'dark';
+        document.body.classList.add(theme + '-theme');
+        if (theme === 'dark') {
+          document.documentElement.setAttribute('data-theme', 'dark');
+        }
+      } catch (e) {
+        // localStorage might be disabled, default to dark
+        document.body.classList.add('dark-theme');
+        document.documentElement.setAttribute('data-theme', 'dark');
+      }
+    })();
+  </script>
+</head>
+
+<body class="mat-typography">
+
+  <app-root>
+
+  </app-root>
+
+</body>
+
+</html>

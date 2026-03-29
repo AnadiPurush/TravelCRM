@@ -1,0 +1,53 @@
+<div class="modal-backdrop" (click)="onClose()">
+    <div class="modal-content" (click)="$event.stopPropagation()">
+        <div class="modal-header">
+            <h2>Query Details: {{query?.serialNumber}}</h2>
+            <button class="btn-close" (click)="onClose()">&times;</button>
+        </div>
+
+        <div class="modal-body scrollable">
+            <div class="detail-grid">
+                <div class="detail-item"><strong>Requester:</strong> {{query?.requesterName}}</div>
+                <div class="detail-item"><strong>Contact:</strong> {{query?.contactNo}}</div>
+                <div class="detail-item"><strong>Email:</strong> {{query?.email}}</div>
+                <div class="detail-item"><strong>From Location:</strong> {{query?.fromLocation}}</div>
+                <div class="detail-item"><strong>To Location:</strong> {{query?.destination}}</div>
+                <div class="detail-item"><strong>From Date:</strong> {{query?.fromDate | date}}</div>
+                <div class="detail-item"><strong>To Date:</strong> {{query?.toDate | date}}</div>
+                <div class="detail-item"><strong>Quoted Price:</strong> {{query?.quotedPrice}}</div>
+                <div class="detail-item"><strong>Status:</strong> {{query?.queriesStatus}}</div>
+                <div class="detail-item"><strong>Priority:</strong> {{query?.queriesPriority}}</div>
+                <div class="detail-item"><strong>Created At:</strong> {{query?.createdAt | date:'short'}}</div>
+            </div>
+
+            <div class="section">
+                <h3>Destinations</h3>
+                <ul>
+                    <li *ngFor="let dest of query?.destination">{{dest}}</li>
+                </ul>
+            </div>
+
+            <div class="section">
+                <h3>Required Services</h3>
+                <ul>
+                    <li *ngFor="let service of query?.requiredServices">{{service}}</li>
+                </ul>
+            </div>
+
+            <div class="section">
+                <h3>Comments</h3>
+                <div class="card" *ngFor="let comment of query?.comments">
+                    <p>{{comment.commentText}}</p>
+                    <small>By {{comment.author}} on {{comment.createdAt | date:'short'}}</small>
+                </div>
+            </div>
+
+            <div class="section">
+                <h3>Assigned Users</h3>
+                <div class="card" *ngFor="let user of query?.assignedUsers">
+                    <strong>{{user.displayName}}</strong> ({{user.role}}) - {{user.email}}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,9 @@
+.main-content {
+  transition: margin-left 300ms ease;
+  margin-left: 0;
+  min-height: 100vh;
+}
+
+.main-content.sidebar-open {
+  margin-left: 250px;
+}

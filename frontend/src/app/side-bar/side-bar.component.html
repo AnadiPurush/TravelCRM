@@ -1,0 +1,30 @@
+<aside class="sidebar" #sidebarRef>
+    <div class="sidebar-header">
+        <h2>Navigation</h2>
+    </div>
+
+    <ul class="menu-list">
+        <li class="menu-item" *ngFor="let menu of menus">
+            <a *ngIf="menu.route" class="menu-row" [routerLink]="menu.route" routerLinkActive="router-link-active">
+                <span class="menu-label">
+                    <mat-icon class="menu-icon">{{ menu.icon }}</mat-icon>
+                    {{ menu.title }}
+                </span>
+            </a>
+            <button *ngIf="!menu.route" class="menu-row" [class.active]="activeDropdown === menu.id"
+                (click)="toggleDropdown(menu.id, $event)">
+                <span class="menu-label">
+                    <mat-icon class="menu-icon">{{ menu.icon }}</mat-icon>
+                    {{ menu.title }}
+                </span>
+                <mat-icon class="chevron">{{ activeDropdown === menu.id ? 'expand_less' : 'expand_more' }}</mat-icon>
+            </button>
+
+            <div class="submenu" [style.max-height]="activeDropdown === menu.id ? '200px' : '0'" *ngIf="menu.children">
+                <a class="submenu-row" *ngFor="let child of menu.children" [routerLink]="child.route">
+                    {{ child.label }}
+                </a>
+            </div>
+        </li>
+    </ul>
+</aside>

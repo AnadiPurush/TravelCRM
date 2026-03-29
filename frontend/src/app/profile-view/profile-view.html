@@ -1,0 +1,112 @@
+<ng-container *ngIf="user$ | async as user">
+    <div class="profile-page">
+
+        <div class="left-section">
+            <div class="profile-card">
+
+                <div class="card-header">
+                    <div class="avatar-circle">
+                        <span class="avatar-text" *ngIf="user.name">{{ user.name.charAt(0) }}</span>
+                    </div>
+                    <div class="header-text">
+                        <h2 class="user-name">{{ user.name }}</h2>
+                        <p class="user-email">{{ user.email }}</p>
+                    </div>
+                </div>
+
+                <div class="info-grid">
+                    <div class="info-item">
+                        <span class="info-label">Role</span>
+                        <span class="info-value">{{ user.role }}</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Manager Name</span>
+                        <span class="info-value">{{ user.managerName }}</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Org Unit Name</span>
+                        <span class="info-value">{{ user.orgUnitName }}</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Org Unit Type</span>
+                        <span class="info-value">{{ user.orgUnitType }}</span>
+                    </div>
+                </div>
+
+                <div class="info-item">
+                    <span class="info-label">Permissions</span>
+                    <span class="chip" *ngFor="let perm of (user.permissions || [])">
+                        {{ perm.value }} <br>{{ perm.displayName }}
+                    </span>
+
+                </div>
+
+                <ul class="manager-list">
+                    <span class="info-label">Secondary Managers</span>
+                    <li class="manager-item" *ngFor="let manager of (user.secondaryManagers || [])">
+                        {{ manager }}
+                    </li>
+                </ul>
+
+
+            </div>
+        </div>
+
+        <div class="right-section">
+            <div class="profile-card center-aligned">
+
+                <div class="avatar-circle large">
+                    <span class="avatar-text" *ngIf="user.name">{{ user.name.charAt(0) }}</span>
+                </div>
+
+                <h2 class="user-name">{{ user.name }}</h2>
+                <p class="user-role">{{ user.role }}</p>
+
+                <div class="action-buttons">
+                    <button (click)="openModal()" class="btn-outline full-width">Update Profile Picture</button>
+                    <button class="btn-outline full-width">Forgot / Reset Password</button>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</ng-container>
+
+
+<div class="modal-backdrop" *ngIf="showModal" (click)="onClose()">
+    <div class="modal-container" (click)="$event.stopPropagation()">
+        <header class="modal-header">
+            <h2>Update Profile Picture</h2>
+            <button class="close-btn" (click)="onClose()">&times;</button>
+        </header>
+
+        <div class="modal-body">
+            <div class="drop-zone" [ngClass]="{'drag-over': isDragOver}" (dragover)="onDragOver($event)"
+                (dragleave)="onDragLeave($event)" (drop)="onDrop($event)">
+
+                <img class="preview-image" [src]="previewUrl || currentImageUrl || 'assets/default-avatar.png'"
+                    alt="Profile Preview">
+
+                <input type="file" #fileInput (change)="onFileSelected($event)" accept=".jpg,.jpeg,.png,.webp" hidden>
+
+                <button class="choose-file-btn" (click)="fileInput.click()">Choose File</button>
+                <span class="file-name" *ngIf="selectedFile">{{ selectedFile.name }}</span>
+                <span class="file-instruction" *ngIf="!selectedFile">or drag and drop here</span>
+            </div>
+
+            <div class="feedback-container">
+                <span class="error-message" *ngIf="errorMessage">{{ errorMessage }}</span>
+                <span class="success-message" *ngIf="uploadState === 'success'">Upload successful</span>
+            </div>
+        </div>
+
+        <footer class="modal-footer">
+            <button class="btn-cancel" (click)="onClose()" [disabled]="uploadState === 'uploading'">Cancel</button>
+            <button class="btn-upload" (click)="onUpload()" [disabled]="!selectedFile || uploadState === 'uploading'">
+                <span *ngIf="uploadState !== 'uploading'">Upload</span>
+                <span class="spinner" *ngIf="uploadState === 'uploading'"></span>
+            </button>
+        </footer>
+    </div>
+</div>

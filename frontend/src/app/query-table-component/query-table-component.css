@@ -1,0 +1,90 @@
+:host {
+  display: block;
+  padding: 24px;
+  background-color: var(--bg-main);
+  min-height: 100vh;
+  box-sizing: border-box;
+  color: var(--text-primary);
+}
+.table-container {
+  overflow-x: auto;
+  border-radius: 12px;
+  padding: 16px;
+  background-color: var(--surface-ground);
+  box-shadow: 0 2px 10px rgba(15, 23, 42, 0.07);
+  border: 1px solid var(--border-color);
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+  color: var(--text-primary);
+}
+
+th, td {
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+th {
+  background-color: var(--surface-medium);
+  color: var(--text-primary);
+  font-weight: 600;
+}
+
+td {
+  background-color: var(--surface-ground);
+  color: var(--text-primary);
+}
+
+.badge {
+  padding: 4px 10px;
+  border-radius: 9999px;
+  font-size: 0.85em;
+  background-color: rgba(var(--accent-rgb), 0.14);
+  color: var(--accent);
+}
+
+.btn-view {
+  background-color: var(--accent);
+  color: var(--surface-ground);
+  border: none;
+  padding: 8px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.btn-view:hover {
+  background-color: rgba(var(--accent-rgb), 0.9);
+}
+
+.pagination {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+.pagination button {
+  background-color: var(--surface-ground);
+  color: var(--text-primary);
+  border: 1px solid var(--border-color);
+  padding: 8px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.pagination button:hover:not(:disabled) {
+  background-color: var(--surface-medium);
+}
+
+.pagination button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.text-center {
+  text-align: center;
+}
